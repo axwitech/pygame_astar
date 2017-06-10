@@ -99,12 +99,64 @@ grid[3][4].passable = False
 grid[4][4].passable = False
 grid[5][4].passable = False
 grid[6][4].passable = False
+def calculate_h_score(start_x,start_y,end_x,end_y):
+    x = abs(start_x - end_x)
+    y = abs(start_y - end_y)
+    answer = (x+y)*10
+    return answer
 
 def find_path(start_x, start_y, end_x, end_y):
     print("i am searching path from node", start_x,start_y, "to node", end_x,end_y)
     grid[start_x][start_y].color = "blue"
-    grid[end_x][end_y].color = "yellow"
-    
+    grid[end_x][end_y].color = "blue"
+
+    start_point = grid[start_x][start_y]
+    end_point = grid[end_x][end_y]
+
+    openlist[start_point] = 0
+
+    while len(openlist) > 0:
+        current = min(openlist, key=openlist.get)
+        print(current.name)
+        print(end_point.name)
+        if current == end_point:
+            current.color = "yellow"
+            path = []
+            while current.parent:
+                current.parent.color = "yellow"
+                path.append(current)
+                current = current.parent
+            path.append(current)
+            return path[::-1]
+        closedlist.append(current)
+        openlist.pop(current)
+        print(current)
+        print(closedlist)
+        print(openlist)
+        for neighbor in current.neighbor:
+            if neighbor in closedlist or neighbor.passable == False:
+                print("neighbor", neighbor.name, "is on closed list or is not passable")
+            else:
+                if (neighbor in openlist) == False:
+                    print("neighbor", neighbor.name, "is not on open list, adding it ")
+                    neighbor.parent = current
+                    neighbor.gscore = neighbor.parent.gscore + 10
+                    if neighbor.x != current.x and neighbor.y != current.y:
+                        neighbor.gscore = neighbor.parent.gscore + 14
+                    neighbor.hscore = calculate_h_score(neighbor.x,neighbor.y,end_point.x,end_point.y)
+                    neighbor.fscore = neighbor.hscore + neighbor.gscore
+                    openlist[neighbor] = neighbor.fscore
+                elif neighbor in openlist:
+                    print("neighbor", neighbor.name, "is on the open list")
+                    tempG = neighbor.parent.gscore + 10
+                    neighbor.gscore = neighbor.parent.gscore + 10
+                    if neighbor.x != current.x and neighbor.y != current.y:
+                        neighbor.gscore = neighbor.parent.gscore + 14
+                    if tempG < neighbor.gscore:
+                        neighbor.gscore = tempG
+                        neighbor.hscore = calculate_h_score(neighbor.x,neighbor.y,end_point.x,end_point.y)
+                        neighbor.fscore = neighbor.hscore + neighbor.gscore
+                        openlist[neighbor] = neighbor.fscore
 
 
 
@@ -152,8 +204,13 @@ while not done:
                 # Change the x/y screen coordinates to grid coordinates
                 column = pos[0] // (WIDTH + MARGIN)
                 row = pos[1] // (HEIGHT + MARGIN)
-                grid[row][column].color == "red"
-                print("Grid coordinates: ", row, column, "Node color: ", grid[row][column].color, "Node is passable: ",grid[row][column].passable, "Node name is: ", grid[row][column].name, "My neighbors are :" , "My neighbors are: ", print_out_neighbor(grid[row][column].neighbor))
+                if grid[row][column].color == "red":
+                    grid[row][column].color == "white"
+                    #print("Grid coordinates: ", row, column, "Node color: ", grid[row][column].color, "Node is passable: ",grid[row][column].passable, "Node name is: ", grid[row][column].name, "My neighbors are :" , "My neighbors are: ", print_out_neighbor(grid[row][column].neighbor))
+                else:
+                    grid[row][column].color = "red"
+                    #print("Grid coordinates: ", row, column, "Node color: ", grid[row][column].color, "Node is passable: ",grid[row][column].passable, "Node name is: ", grid[row][column].name, "My neighbors are :" , "My neighbors are: ", print_out_neighbor(grid[row][column].neighbor))
+
             elif event.button == 3:
                 # User clicks the mouse. Get the position
                 pos = pygame.mouse.get_pos()
@@ -187,6 +244,8 @@ while not done:
                 color = BLUE
             elif grid[row][column].color == "yellow":
                 color = YELLOW
+            elif  grid[row][column].color == "white":
+                color = WHITE
             pygame.draw.rect(screen,
                              color,
                              [(MARGIN + WIDTH) * column + MARGIN,
