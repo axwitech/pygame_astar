@@ -16,6 +16,8 @@ BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
 GREEN = (0, 255, 0)
 RED = (255, 0, 0)
+BLUE = (0,0,255)
+YELLOW = (255,255,0)
 
 # This sets the WIDTH and HEIGHT of each grid location
 WIDTH = 20
@@ -52,49 +54,41 @@ def update_neighbors():
             if row > 0:
                 #print("1")
                 #print(grid[row][column].name)
-                grid[row][column].set_neighbor(grid[row-1][column])
-                #grid[row][column].neighbor = grid[row-1][column]
+                grid[row][column].neighbor = grid[row-1][column]
             if row < ROWS - 1:
                 #print("2")
                 #print(grid[row][column].name)
-                grid[row][column].set_neighbor(grid[row+1][column])
-                #grid[row][column].neighbor = grid[row+1][column]
+                grid[row][column].neighbor = grid[row+1][column]
             if column > 0:
                 #print("3")
                 #print(grid[row][column].name)
-                grid[row][column].set_neighbor(grid[row][column-1])
-                #grid[row][column].neighbor = grid[row][column-1]
+                grid[row][column].neighbor = grid[row][column-1]
             if column < COLUMNS - 1:
                 #print("4")
                 #print(grid[row][column].name)
-                grid[row][column].set_neighbor(grid[row][column+1])
-                #grid[row][column].neighbor = grid[row][column+1]
+                grid[row][column].neighbor = grid[row][column+1]
             if row > 0 and column > 0:
                 #print("5")
                 #print(grid[row][column].name)
-                grid[row][column].set_neighbor(grid[row-1][column-1])
-                #grid[row][column].neighbor = grid[row-1][column-1]
+                grid[row][column].neighbor = grid[row-1][column-1]
             if row > 0 and column < COLUMNS - 1:
                 #print("6")
                 #print(grid[row][column].name)
-                grid[row][column].set_neighbor(grid[row-1][column+1])
-                #grid[row][column].neighbor = grid[row-1][column+1]
+                grid[row][column].neighbor = grid[row-1][column+1]
             if row < ROWS - 1 and column > 0:
                 #print("7")
                 #print(grid[row][column].name)
-                grid[row][column].set_neighbor(grid[row+1][column-1])
-                #grid[row][column].neighbor = grid[row+1][column-1]
+                grid[row][column].neighbor = grid[row+1][column-1]
             if row < ROWS - 1 and column < COLUMNS - 1:
                 #print("8")
                 #print(grid[row][column].name)
-                grid[row][column].set_neighbor(grid[row+1][column+1])
-                #grid[row][column].neighbor = grid[row+1][column+1]
+                grid[row][column].neighbor = grid[row+1][column+1]
 
-def print_out_neighbor(neighbor_list):
-    for node in neighbor_list:
-        print(node.name)
 
 update_neighbors()
+def print_out_neighbor(neighbor_list):
+    for neighbor in neighbor_list:
+        print(neighbor.name)
 
 # Set the specific nodes as red and not passable
 grid[3][4].color = "red"
@@ -106,7 +100,13 @@ grid[4][4].passable = False
 grid[5][4].passable = False
 grid[6][4].passable = False
 
-#def find_path(start_x, start_y, end_x, end_y):
+def find_path(start_x, start_y, end_x, end_y):
+    print("i am searching path from node", start_x,start_y, "to node", end_x,end_y)
+    grid[start_x][start_y].color = "blue"
+    grid[end_x][end_y].color = "yellow"
+    
+
+
 
 # Initialize pygame
 pygame.init()
@@ -138,33 +138,38 @@ while not done:
                 # Change the x/y screen coordinates to grid coordinates
                 column = pos[0] // (WIDTH + MARGIN)
                 row = pos[1] // (HEIGHT + MARGIN)
-                start_x = column
-                start_y = row
+                start_x = row
+                start_y = column
                 # Set that location to one
                 if grid[row][column].color == "red":
-                    print("Grid coordinates: ", row, column, "Node color: ", grid[row][column].color, "Node is passable: ",
-                          grid[row][column].passable, "Node name is: ", grid[row][column].name, "My neighbors are :" ,print_out_neighbor(grid[row][column].neighbor))
+                    print("Grid coordinates: ", row, column, "Node color: ", grid[row][column].color, "Node is passable: ",grid[row][column].passable, "Node name is: ", grid[row][column].name, "My neighbors are :" , "My neighbors are: ", print_out_neighbor(grid[row][column].neighbor))
                 else:
                     grid[row][column].color = "green"
-                    print("Grid coordinates: ", row, column, "Node color: ", grid[row][column].color, "Node is passable: ",
-                          grid[row][column].passable, "Node name is: ", grid[row][column].name, "My neighbors are :" ,print_out_neighbor(grid[row][column].neighbor))
+                    print("Grid coordinates: ", row, column, "Node color: ", grid[row][column].color, "Node is passable: ",grid[row][column].passable, "Node name is: ", grid[row][column].name, "My neighbors are :" , "My neighbors are: ", print_out_neighbor(grid[row][column].neighbor))
+            elif event.button == 2:
+                # User clicks the mouse. Get the position
+                pos = pygame.mouse.get_pos()
+                # Change the x/y screen coordinates to grid coordinates
+                column = pos[0] // (WIDTH + MARGIN)
+                row = pos[1] // (HEIGHT + MARGIN)
+                grid[row][column].color == "red"
+                print("Grid coordinates: ", row, column, "Node color: ", grid[row][column].color, "Node is passable: ",grid[row][column].passable, "Node name is: ", grid[row][column].name, "My neighbors are :" , "My neighbors are: ", print_out_neighbor(grid[row][column].neighbor))
             elif event.button == 3:
                 # User clicks the mouse. Get the position
                 pos = pygame.mouse.get_pos()
                 # Change the x/y screen coordinates to grid coordinates
                 column = pos[0] // (WIDTH + MARGIN)
                 row = pos[1] // (HEIGHT + MARGIN)
-                end_x = column
-                end_y = row
+                end_x = row
+                end_y = column
                 # Set that location to one
                 if grid[row][column].color == "red":
-                    print("Grid coordinates: ", row, column, "Node color: ", grid[row][column].color, "Node is passable: ",
-                          grid[row][column].passable, "Node name is: ", grid[row][column].name, "My neighbors are :" ,grid[row][column].neighbor)
+                    print("Grid coordinates: ", row, column, "Node color: ", grid[row][column].color, "Node is passable: ",grid[row][column].passable, "Node name is: ", grid[row][column].name, "My neighbors are :" , "My neighbors are: ", print_out_neighbor(grid[row][column].neighbor))
                 else:
                     grid[row][column].color = "green"
-                    print("Grid coordinates: ", row, column, "Node color: ", grid[row][column].color, "Node is passable: ",
-                          grid[row][column].passable, "Node name is: ", grid[row][column].name, "My neighbors are :" ,grid[row][column].neighbor)
+                    print("Grid coordinates: ", row, column, "Node color: ", grid[row][column].color, "Node is passable: ",grid[row][column].passable, "Node name is: ", grid[row][column].name, "My neighbors are :" , "My neighbors are: ", print_out_neighbor(grid[row][column].neighbor))
                     find_path(start_x,start_y,end_x,end_y)
+
 
 
     # Set the screen background
@@ -178,6 +183,10 @@ while not done:
                 color = GREEN
             elif grid[row][column].color == "red":
                 color = RED
+            elif grid[row][column].color == "blue":
+                color = BLUE
+            elif grid[row][column].color == "yellow":
+                color = YELLOW
             pygame.draw.rect(screen,
                              color,
                              [(MARGIN + WIDTH) * column + MARGIN,

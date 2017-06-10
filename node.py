@@ -1,6 +1,6 @@
 class Node:
 
-    def __init__(self, color = "white", passable = True, fscore = 0, gscore = 0, hscore = 0, x = 0, y = 0, name = None, parent = None, neighbor = []):
+    def __init__(self, color = "white", passable = True, fscore = 0, gscore = 0, hscore = 0, x = 0, y = 0, name = None, parent = None, neighbor = None):
         self._color = color
         self._passable = passable
         self._fscore = fscore
@@ -10,7 +10,10 @@ class Node:
         self._y = y
         self._name = name
         self._parent = parent
-        self._neighbor = neighbor
+        if neighbor is None:
+            self._neighbor = []
+        else:
+            self._neighbor = neighbor
 ################################
     @property
     def color(self):
@@ -88,8 +91,6 @@ class Node:
     def neighbor(self):
         return self._neighbor
 
-    #@neighbor.setter
-    #def neighbor(self, value):
-    #    self._neighbor.append(value)
-    def set_neighbor(self, value):
-        self.neighbor.append(value)
+    @neighbor.setter
+    def neighbor(self, value):
+        self._neighbor.append(value)
