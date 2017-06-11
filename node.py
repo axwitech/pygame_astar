@@ -1,6 +1,6 @@
 class Node:
 
-    def __init__(self, color = "white", passable = True, fscore = 0, gscore = 0, hscore = 0, x = 0, y = 0, name = None, parent = None, neighbor = None):
+    def __init__(self, color="white", passable=True, fscore=0, gscore=0, hscore=0, x=0, y=0, name=None, parent=None, neighbor=None):
         self._color = color
         self._passable = passable
         self._fscore = fscore
@@ -14,6 +14,15 @@ class Node:
             self._neighbor = []
         else:
             self._neighbor = neighbor
+
+    def clear_node(color, fscore, gscore, hscore, parent, neighbor):
+        color = "white"
+        fscore = 0
+        gscore = 0
+        hscore = 0
+        parent = None
+        neighbor = None
+
 ################################
     @property
     def color(self):
@@ -23,6 +32,7 @@ class Node:
     def color(self, value):
         self._color = value
 ################################
+
     @property
     def passable(self):
         return self._passable
@@ -31,6 +41,7 @@ class Node:
     def passable(self, value):
         self._passable = value
 ################################
+
     @property
     def fscore(self):
         return self._fscore
@@ -39,6 +50,7 @@ class Node:
     def fscore(self, value):
         self._fscore = value
 ################################
+
     @property
     def gscore(self):
         return self._gscore
@@ -47,6 +59,7 @@ class Node:
     def gscore(self, value):
         self._gscore = value
 ################################
+
     @property
     def hscore(self):
         return self._hscore
@@ -55,6 +68,7 @@ class Node:
     def hscore(self, value):
         self._hscore = value
 ################################
+
     @property
     def x(self):
         return self._x
@@ -63,6 +77,7 @@ class Node:
     def x(self, value):
         self._x = value
 ################################
+
     @property
     def y(self):
         return self._y
@@ -71,6 +86,7 @@ class Node:
     def y(self, value):
         self._y = value
 ################################
+
     @property
     def name(self):
         return self._name
@@ -79,6 +95,7 @@ class Node:
     def name(self, value):
         self._name = value
 ################################
+
     @property
     def parent(self):
         return self._parent
@@ -87,6 +104,7 @@ class Node:
     def parent(self, value):
         self._parent = value
 ################################
+
     @property
     def neighbor(self):
         return self._neighbor
