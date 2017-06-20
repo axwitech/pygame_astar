@@ -1,4 +1,6 @@
-## Modified version of pygames array_backed_grid.py to support a star pathfinding and procedural map generation based on cellular automata
+## A star pathfinding with proceduraly generated map
+
+This is based on pygames array_backed_grid.py.
 
 Tutorials used:
 * http://www.policyalmanac.org/games/aStarTutorial.htm
