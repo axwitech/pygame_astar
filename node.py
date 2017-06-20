@@ -15,13 +15,11 @@ class Node:
         else:
             self._neighbor = neighbor
 
-    def clear_node(color, fscore, gscore, hscore, parent, neighbor):
-        color = "white"
+    def clear_node():
         fscore = 0
         gscore = 0
         hscore = 0
         parent = None
-        neighbor = None
 
 ################################
     @property
