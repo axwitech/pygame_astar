@@ -1,10 +1,10 @@
 ## Modified version of pygames array_backed_grid.py to support a star pathfinding and procedural map generation based on cellular automata
 
 Tutorials used:
-http://www.policyalmanac.org/games/aStarTutorial.htm
-https://en.wikipedia.org/wiki/A*_search_algorithm#Pseudocode
-http://jmduke.com/posts/making-caves-with-cellular-automata/
-http://pcg.wikidot.com/pcg-algorithm:cellular-automata
+* http://www.policyalmanac.org/games/aStarTutorial.htm
+* https://en.wikipedia.org/wiki/A*_search_algorithm#Pseudocode
+* http://jmduke.com/posts/making-caves-with-cellular-automata/
+* http://pcg.wikidot.com/pcg-algorithm:cellular-automata
 
 ### How to use:
 
