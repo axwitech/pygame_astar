@@ -38,9 +38,7 @@ grid = []
 openlist = {}
 closedlist = []
 map_generator = Map_generator()
-
-# a method that resets the nodes to their orignal state, this is called everytime the path is complete
-# not the best solution, would be great to clear the both pathfinding lists and clear only the path
+# method that initiates the grid and initiates the map. updates the neighbors for it too.
 
 
 def init_game():
@@ -57,18 +55,10 @@ def init_game():
             node.name = "My name is: ", node.x, node.y
             grid[row].append(node)  # Append a cell
     update_neighbors()
-    # Set the specific nodes as red and not passable
-    # grid[3][4].color = "red"
-    # grid[4][4].color = "red"
-    # grid[5][4].color = "red"
-    # grid[6][4].color = "red"
-    # grid[3][4].passable = False
-    # grid[4][4].passable = False
-    # grid[5][4].passable = False
-    # grid[6][4].passable = False
-
 
 # method that updates the nodes with the information of their neighbors
+
+
 def update_neighbors():
     for row in range(ROWS):
         for column in range(COLUMNS):
@@ -104,6 +94,8 @@ def calculate_h_score(start_x, start_y, end_x, end_y):
     y = abs(start_y - end_y)
     answer = (x + y) * 10
     return answer
+
+# a method that clears out the path colors and resets the nodes to their default state
 
 
 def clear_color_and_path(grid):
@@ -188,7 +180,7 @@ map_generator.generate_map(grid)
 pygame.init()
 
 # Set the HEIGHT and WIDTH of the screen
-WINDOW_SIZE = [(WIDTH + MARGIN) * ROWS, (HEIGHT + MARGIN) * COLUMNS]
+WINDOW_SIZE = [((WIDTH + MARGIN) * ROWS) + MARGIN, ((HEIGHT + MARGIN) * COLUMNS) + MARGIN]
 screen = pygame.display.set_mode(WINDOW_SIZE)
 
 # Set title of screen
@@ -233,7 +225,7 @@ while not done:
                 # Change the x/y screen coordinates to grid coordinates
                 column = pos[0] // (WIDTH + MARGIN)
                 row = pos[1] // (HEIGHT + MARGIN)
-                if grid[row][column].color == "red" and grid[row][column].color != 'grey':
+                if grid[row][column].color == "red":
                     grid[row][column].color == "white"
                     # print("Grid coordinates: ", row, column, "Node color: ", grid[row][column].color, "Node is passable: ",grid[row][column].passable, "Node name is: ", grid[row][column].name, "My neighbors are :" , "My neighbors are: ", print_out_neighbor(grid[row][column].neighbor))
                 elif grid[row][column].color != 'grey':
