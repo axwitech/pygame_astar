@@ -2,7 +2,7 @@ import random
 ROWS = 30
 COLUMNS = 30
 WALLS = 40
-ITERATIONS = 3
+ITERATIONS = 10
 
 
 class Map_generator:
@@ -11,9 +11,15 @@ class Map_generator:
         for row in range(ROWS):
             for column in range(COLUMNS):
                 chance = random.randint(0, 100)
+                current = grid[row][column]
                 if chance <= WALLS:
-                    grid[row][column].color = 'grey'
-                    grid[row][column].passable = False
+                    for node in current.neighbor:
+                        if node.x != current.x and node.y != current.y:
+                            node.color = "white"
+                            current.passable = True
+                        else:
+                            current.color = 'grey'
+                            current.passable = False
         # set all the borders to walls, make them grey and make them not passable and mark the borders are border
         for row in range(COLUMNS):
             grid[0][row].passable = False
