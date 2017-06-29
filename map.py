@@ -28,10 +28,8 @@ MARGIN = 5
 grid = []
 map_generator = Map_generator()
 pathfinder = Pathfinder()
-# method that initiates the grid and initiates the map. updates the neighbors for it too.
 
-
-def init_game():
+def init_map():
     del grid[:]
     for row in range(ROWS):
         # Add an empty array that will hold each node
@@ -44,33 +42,9 @@ def init_game():
             node.color = "white"
             node.name = "My name is: ", node.x, node.y
             grid[row].append(node)  # Append a cell
-    update_neighbors()
+    pathfinder.update_neighbors(grid)
 
-# method that updates the nodes with the information of their neighbors
-
-
-def update_neighbors():
-    for row in range(ROWS):
-        for column in range(COLUMNS):
-            if row > 0:
-                grid[row][column].neighbor = grid[row - 1][column]
-            if row < ROWS - 1:
-                grid[row][column].neighbor = grid[row + 1][column]
-            if column > 0:
-                grid[row][column].neighbor = grid[row][column - 1]
-            if column < COLUMNS - 1:
-                grid[row][column].neighbor = grid[row][column + 1]
-            if row > 0 and column > 0:
-                grid[row][column].neighbor = grid[row - 1][column - 1]
-            if row > 0 and column < COLUMNS - 1:
-                grid[row][column].neighbor = grid[row - 1][column + 1]
-            if row < ROWS - 1 and column > 0:
-                grid[row][column].neighbor = grid[row + 1][column - 1]
-            if row < ROWS - 1 and column < COLUMNS - 1:
-                grid[row][column].neighbor = grid[row + 1][column + 1]
-
-
-init_game()
+init_map()
 map_generator.generate_map(grid)
 # Initialize pygame
 pygame.init()
@@ -148,7 +122,6 @@ while not done:
 
     # Set the screen background
     screen.fill(BLACK)
-
     # Draw the grid
     for row in range(ROWS):
         for column in range(COLUMNS):

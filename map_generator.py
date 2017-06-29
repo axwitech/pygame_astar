@@ -50,9 +50,10 @@ class Map_generator:
                             grid[row][column].color = 'grey'
                             grid[row][column].passable = False
                         else:
-                            grid[row][column].color = '¨white'
+                            grid[row][column].color = 'white'
                             grid[row][column].passable = True
-
+        #Iteration that tries to remove diagonal walls
+        
         for iteration in range(ITERATIONS):
             for row in range(ROWS):
                 for column in range(COLUMNS):

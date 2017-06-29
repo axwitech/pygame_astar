@@ -87,3 +87,24 @@ class Pathfinder:
                                 neighbor.x, neighbor.y, end_point.x, end_point.y)
                             neighbor.fscore = neighbor.hscore + neighbor.gscore
                             openlist[neighbor] = neighbor.fscore
+
+    # method that updates the nodes with the information of their neighbors
+    def update_neighbors(self,grid):
+        for row in range(ROWS):
+            for column in range(COLUMNS):
+                if row > 0:
+                    grid[row][column].neighbor = grid[row - 1][column]
+                if row < ROWS - 1:
+                    grid[row][column].neighbor = grid[row + 1][column]
+                if column > 0:
+                    grid[row][column].neighbor = grid[row][column - 1]
+                if column < COLUMNS - 1:
+                    grid[row][column].neighbor = grid[row][column + 1]
+                if row > 0 and column > 0:
+                    grid[row][column].neighbor = grid[row - 1][column - 1]
+                if row > 0 and column < COLUMNS - 1:
+                    grid[row][column].neighbor = grid[row - 1][column + 1]
+                if row < ROWS - 1 and column > 0:
+                    grid[row][column].neighbor = grid[row + 1][column - 1]
+                if row < ROWS - 1 and column < COLUMNS - 1:
+                    grid[row][column].neighbor = grid[row + 1][column + 1]
